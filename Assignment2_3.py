@@ -1,7 +1,6 @@
 import sys;
 
 def fact(no):
-
     ans=no;
     for i in range(1,no):
         ans=ans*i;
