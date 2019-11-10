@@ -3,7 +3,7 @@ import sys;
 def main(no):
     i=0;
     while (no != 0):
-        no = no // 10;
+        no = int(no / 10);
         i+=1;
     print("Number of digits in no are ",i);
 
