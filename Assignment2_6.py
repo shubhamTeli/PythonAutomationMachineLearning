@@ -2,6 +2,7 @@ import sys;
 
 def main(no):
     i=1;
+    
     while i <= no:
         for j in range(1,(no+2)-i):
             print("*",end=' ');
