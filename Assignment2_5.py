@@ -3,6 +3,7 @@ import sys;
 def IsPrime(no):
     i=2;
     prime=1;
+    
     while (i <= no/2):
         if (no % i == 0):
             prime=0;
