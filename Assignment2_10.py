@@ -7,7 +7,7 @@ def main(no):
         Digitsum += no % 10;
         no = no // 10;
         i+=1;
-    print("Addition of digits in no are ",Digitsum);
+    print("Addition of digits in no are: ",Digitsum);
 
 
 if (__name__ == '__main__'):
