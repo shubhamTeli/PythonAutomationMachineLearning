@@ -3,7 +3,7 @@ import sys;
 def AddFactors(no):
     i = 1;
     ans = 0;
-    while (i <= no / 2):
+    while (i <= no/2):
         if (no % i == 0):
             ans = ans + i;
         i += 1;
