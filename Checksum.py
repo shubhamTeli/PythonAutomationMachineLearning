@@ -1,5 +1,6 @@
 import hashlib
 
+
 def hasfile(path,blocksize=1024):
     afile=open(path,'rb');
     hasher=hashlib.md5();
