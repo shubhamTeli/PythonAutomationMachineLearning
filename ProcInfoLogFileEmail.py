@@ -10,10 +10,12 @@ shubhamteli496@gmail.com is the mail id.
 import smtplib
 import sys
 import time;
+from email.encoders import encode_base64
+from mimetypes import guess_type
+
 import psutil;
 import os;
 import checkInternet;
-from email import encoders;
 from email.mime.text import MIMEText;
 from email.mime.base import MIMEBase;
 from email.mime.multipart import MIMEMultipart;
@@ -40,14 +42,18 @@ def mailSender(fname,emailId,time):
 
         msg['Subject']=subject;
         msg.attach(MIMEText(body,'plain'));
-        attachment=open(fname,'rb');
 
-        p=MIMEBase('application','octet-stream');
-        p.set_payload((attachment).read());
-        encoders.encode_base64(p);
-        p.add_header('Content Disposition',"attachment;filename=%s"%fname);
 
-        msg.attach(p);
+        mimetype, encoding = guess_type(fname);
+        mimetype = mimetype.split('/', 1);
+        fp = open(fname, 'rb');
+        attachment = MIMEBase(mimetype[0], mimetype[1]);
+        attachment.set_payload(fp.read());
+        fp.close();
+        encode_base64(attachment);
+        attachment.add_header('Content-Disposition', 'attachment',filename=os.path.basename(fname));
+        msg.attach(attachment);
+
 
         s=smtplib.SMTP('smtp.gmail.com',587);
         s.starttls();
