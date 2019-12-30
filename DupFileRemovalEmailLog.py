@@ -37,6 +37,7 @@ from mimetypes import guess_type
 import Checksum;
 import schedule;
 import time;
+import checkInternet;
 
 
 def mailSender(log_path, emailId,starTime,totalFiles,dupFiles,fileGenTime):
@@ -127,7 +128,7 @@ def findDups(path):
             for fname in files:
                 totalFiles=len(files);
                 fname=os.path.join(dirName,fname);
-                file_hash=Checksum.hashfile(fname);
+                file_hash= Checksum.hashfile(fname);
                 if file_hash in dupsfilesDic:
                         dupsfilesDic[file_hash].append(fname);
                         dupFiles+=1;
@@ -143,7 +144,12 @@ def dupFileRemoval(dirName):
     arr,starTime,totalFiles,dupFiles= findDups(dirName);
     log_path,fileGenTime=DelDups(arr,dirName);
     if log_path and fileGenTime:
-        mailSender(log_path,str(sys.argv[3]),starTime,totalFiles,dupFiles,fileGenTime);
+        connected = checkInternet.check_internet();
+        if not connected:
+            print("Not Connected to Internet.");
+            print("Mail did not sent...");
+        else:
+            mailSender(log_path,str(sys.argv[3]),starTime,totalFiles,dupFiles,fileGenTime);
     else:
         print("Mail did not sent...")
 
@@ -151,10 +157,10 @@ def main():
       try:
 
         dirName=sys.argv[1];
-        schedule.every(int(sys.argv[2])).minutes.do(dupFileRemoval,dirName);
+        schedule.every(int(sys.argv[2])).seconds.do(dupFileRemoval,dirName);
         while True:
             schedule.run_pending();
-            time.sleep(1500);
+            time.sleep(5);
       except Exception as E:
           print("Exception occured: ",E);
 
